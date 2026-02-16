@@ -1,0 +1,45 @@
+{
+  "coord": {
+    "lon": -6.2592,
+    "lat": 53.3472
+  },
+  "weather": [
+    {
+      "id": 802,
+      "main": "Clouds",
+      "description": "scattered clouds",
+      "icon": "03d"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 8.18,
+    "feels_like": 3.85,
+    "temp_min": 7.37,
+    "temp_max": 8.65,
+    "pressure": 1001,
+    "humidity": 82,
+    "sea_level": 1001,
+    "grnd_level": 986
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 9.77,
+    "deg": 310
+  },
+  "clouds": {
+    "all": 40
+  },
+  "dt": 1771257230,
+  "sys": {
+    "type": 2,
+    "id": 2046043,
+    "country": "IE",
+    "sunrise": 1771227706,
+    "sunset": 1771263404
+  },
+  "timezone": 0,
+  "id": 2962486,
+  "name": "Mountjoy",
+  "cod": 200
+}
