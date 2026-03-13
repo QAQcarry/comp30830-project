@@ -3,6 +3,7 @@
  */
 import { fetchStations, fetchAvailability, fetchAllAvailability } from "./apiClient.js";
 import { showNearbyAlternatives } from "./ui.js";
+import { drawAvailabilityChart } from "./chart.js";
 
 let map = null;
 let markers = [];
@@ -108,6 +109,7 @@ async function onMarkerClick(station) {
             const latest = availability[0];
             updateAvailabilityDisplay(latest);
             showNearbyAlternatives(station, allStations, latest);
+            drawAvailabilityChart(station.number);
         }
     } catch (error) {
         console.error("Error fetching availability:", error);
