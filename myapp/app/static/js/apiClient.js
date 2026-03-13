@@ -23,6 +23,13 @@ export async function fetchAllAvailability() {
     return data.availability;
 }
 
+export async function fetchAvailabilityHistory(stationId) {
+    const response = await fetch(`/available/${stationId}/history`);
+    if (!response.ok) throw new Error(`Failed to fetch history for station ${stationId}`);
+    const data = await response.json();
+    return data.history;
+}
+
 export async function fetchWeather() {
     const response = await fetch("/weather");
     if (!response.ok) throw new Error("Failed to fetch weather");
