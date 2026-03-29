@@ -245,3 +245,143 @@ main {
   color: #999;
   padding: 1rem;
 }
+
+/* ── Auth Pages ── */
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 45px);
+  background: #f0f2f5;
+  padding: 2rem;
+}
+
+.auth-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 2.5rem 2rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.auth-title {
+  margin: 0 0 0.3rem 0;
+  font-size: 1.6rem;
+  color: #2c3e50;
+}
+
+.auth-subtitle {
+  margin: 0 0 1.5rem 0;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #444;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.form-group input:focus {
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 0.7rem;
+  margin-top: 0.5rem;
+  background: #2c3e50;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-primary:hover {
+  background: #3d5166;
+}
+
+.auth-switch {
+  margin-top: 1.2rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.auth-switch a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.auth-switch a:hover {
+  text-decoration: underline;
+}
+
+/* ── Nav user display ── */
+.nav-user {
+  color: #aaa;
+  font-size: 0.85rem;
+}
+
+/* ── Flash messages ── */
+.flash-wrapper {
+  padding: 0.5rem 1rem;
+  background: #f8f9fa;
+}
+
+.flash {
+  padding: 0.65rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.flash:last-child {
+  margin-bottom: 0;
+}
+
+.flash-danger {
+  background: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+}
+
+.flash-success {
+  background: #d1e7dd;
+  color: #0a3622;
+  border: 1px solid #a3cfbb;
+}
+
+.flash-warning {
+  background: #fff3cd;
+  color: #664d03;
+  border: 1px solid #ffda6a;
+}
+
+.flash-info {
+  background: #cff4fc;
+  color: #055160;
+  border: 1px solid #9eeaf9;
+}
