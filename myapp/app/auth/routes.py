@@ -32,11 +32,12 @@ def login():
 @auth_bp.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
+        username = request.form.get("username", "").strip()
         email = request.form.get("email", "").strip().lower()
         password = request.form.get("password", "")
         confirm = request.form.get("confirm_password", "")
 
-        if not email or not password or not confirm:
+        if not username or not email or not password or not confirm:
             flash("All fields are required.", "danger")
             return render_template("auth/register.html")
 
@@ -54,7 +55,7 @@ def register():
             flash("An account with that email already exists.", "danger")
             return render_template("auth/register.html")
 
-        User.create_user(engine, email, password)
+        User.create_user(engine, username, email, password)
         flash("Account created! Please log in.", "success")
         return redirect(url_for("auth.login"))
 

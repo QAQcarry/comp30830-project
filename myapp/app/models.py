@@ -5,8 +5,9 @@ from sqlalchemy import text
 
 
 class User(UserMixin):
-    def __init__(self, id, email, password_hash):
+    def __init__(self, id, username, email, password_hash):
         self.id = id
+        self.username = username
         self.email = email
         self.password_hash = password_hash
 
@@ -20,30 +21,30 @@ class User(UserMixin):
     def get_by_id(engine, user_id):
         with engine.connect() as conn:
             row = conn.execute(
-                text("SELECT id, email, password_hash FROM users WHERE id = :id"),
+                text("SELECT id, username, email, password_hash FROM users WHERE id = :id"),
                 {"id": user_id}
             ).fetchone()
         if row is None:
             return None
-        return User(row.id, row.email, row.password_hash)
+        return User(row.id, row.username, row.email, row.password_hash)
 
     @staticmethod
     def get_by_email(engine, email):
         with engine.connect() as conn:
             row = conn.execute(
-                text("SELECT id, email, password_hash FROM users WHERE email = :email"),
+                text("SELECT id, username, email, password_hash FROM users WHERE email = :email"),
                 {"email": email.strip().lower()}
             ).fetchone()
         if row is None:
             return None
-        return User(row.id, row.email, row.password_hash)
+        return User(row.id, row.username, row.email, row.password_hash)
 
     @staticmethod
-    def create_user(engine, email, password):
+    def create_user(engine, username, email, password):
         password_hash = generate_password_hash(password)
         with engine.connect() as conn:
             conn.execute(
-                text("INSERT INTO users (email, password_hash) VALUES (:email, :password_hash)"),
-                {"email": email.strip().lower(), "password_hash": password_hash}
+                text("INSERT INTO users (username, email, password_hash) VALUES (:username, :email, :password_hash)"),
+                {"username": username.strip(), "email": email.strip().lower(), "password_hash": password_hash}
             )
             conn.commit()
