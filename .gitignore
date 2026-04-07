@@ -1,4 +1,4 @@
-L4 - Code/
-main.py
-Personas_UserStories_AC.ipynb
+.env
+__pycache__/
 .DS_Store
+.vscode/
