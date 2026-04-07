@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Dublin Bikes - Home{% endblock %}
+
+{% block content %}
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <h2>Find a Station</h2>
+        <input type="text" id="station-search" placeholder="Search station name..." />
+      </div>
+
+      <div class="sidebar-section" id="weather-panel">
+        <h2>Weather</h2>
+        <p class="placeholder-text">Loading weather...</p>
+      </div>
+
+      <div class="sidebar-section" id="station-info-panel" style="display: none;">
+        <h2 id="station-name"></h2>
+        <p id="station-address"></p>
+        <div class="availability-row">
+          <div class="availability-card bikes">
+            <span class="availability-number" id="available-bikes">-</span>
+            <span class="availability-label">Available Bikes</span>
+          </div>
+          <div class="availability-card stands">
+            <span class="availability-number" id="available-stands">-</span>
+            <span class="availability-label">Free Docks</span>
+          </div>
+        </div>
+        <p id="station-capacity" class="capacity-text"></p>
+        <div id="station-status"></div>
+        <div id="chart-container"></div>
+      </div>
+
+      <div class="sidebar-section" id="nearby-panel" style="display: none;">
+        <h2>Nearby Alternatives</h2>
+        <ul id="nearby-list"></ul>
+      </div>
+    </aside>
+
+    <!-- Map -->
+    <div id="map"></div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
+  <script
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&callback=initMap"
+    defer>
+  </script>
+{% endblock %}
