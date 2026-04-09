@@ -3,6 +3,8 @@ from flask_login import login_required
 from sqlalchemy import text
 from . import api_bp
 from ..db import get_db
+import os
+import requests
 
 
 @api_bp.route("/stations")
@@ -25,7 +27,9 @@ def get_all_availability():
     engine = get_db()
     data = []
     with engine.connect() as conn:
-        rows = conn.execute(text("""
+        rows = conn.execute(
+            text(
+                """
             SELECT number, available_bikes, available_bike_stands
             FROM (
                 SELECT number, available_bikes, available_bike_stands,
@@ -33,7 +37,9 @@ def get_all_availability():
                 FROM availability
             ) ranked
             WHERE rn = 1;
-        """))
+        """
+            )
+        )
         for row in rows:
             data.append(dict(row._mapping))
     return jsonify(availability=data)
@@ -47,15 +53,17 @@ def get_availability(station_id):
     data = []
     with engine.connect() as conn:
         rows = conn.execute(
-            text("""
+            text(
+                """
                 SELECT number, bike_stands, available_bike_stands,
                        available_bikes, status, last_update, scrape_time
                 FROM availability
                 WHERE number = :station_id
                 ORDER BY last_update DESC, id DESC
                 LIMIT 1;
-            """),
-            {"station_id": station_id}
+            """
+            ),
+            {"station_id": station_id},
         )
         for row in rows:
             data.append(dict(row._mapping))
@@ -70,14 +78,16 @@ def get_availability_history(station_id):
     data = []
     with engine.connect() as conn:
         rows = conn.execute(
-            text("""
+            text(
+                """
                 SELECT available_bikes, available_bike_stands, last_update
                 FROM availability
                 WHERE number = :station_id
                 ORDER BY last_update DESC
                 LIMIT 48;
-            """),
-            {"station_id": station_id}
+            """
+            ),
+            {"station_id": station_id},
         )
         for row in rows:
             data.append(dict(row._mapping))
@@ -87,19 +97,31 @@ def get_availability_history(station_id):
 @api_bp.route("/weather")
 @login_required
 def get_weather():
-    """Return the most recent weather record."""
-    engine = get_db()
-    data = []
-    with engine.connect() as conn:
-        rows = conn.execute(
-            text("""
-                SELECT temp, feels_like, humidity, wind_speed,
-                       main, description, icon, scrape_time
-                FROM weather
-                ORDER BY scrape_time DESC
-                LIMIT 1;
-            """)
-        )
-        for row in rows:
-            data.append(dict(row._mapping))
-    return jsonify(weather=data)
+    try:
+        api_key = os.environ.get("OPENWEATHER_API_KEY")
+        if not api_key:
+            raise ValueError("Missing OPENWEATHER_API_KEY")
+
+        # Fetch live weather data
+        url = f"http://api.openweathermap.org/data/2.5/weather?q=Dublin,IE&appid={api_key}&units=metric"
+        response = requests.get(url, timeout=5)
+        response.raise_for_status()
+
+        data = response.json()
+
+        # Format data for frontend
+        live_weather = [
+            {
+                "temp": data["main"]["temp"],
+                "description": data["weather"][0]["description"].title(),
+                "icon": data["weather"][0]["icon"],
+            }
+        ]
+
+        return jsonify(weather=live_weather)
+
+    except Exception as e:
+        print(f"Weather fetch failed: {e}")
+        # Fallback data on error
+        fallback = [{"temp": 12.5, "description": "Error", "icon": "04d"}]
+        return jsonify(weather=fallback)
