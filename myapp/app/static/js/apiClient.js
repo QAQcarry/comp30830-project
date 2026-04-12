@@ -48,3 +48,27 @@ export async function fetchWeather() {
     const data = await response.json();
     return data.weather;
 }
+
+export async function fetchPrediction(stationId, date, time) {
+    const response = await fetch("/predict", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            station_id: parseInt(stationId, 10),
+            date: date,
+            time: time
+        })
+    });
+
+    handleUnauthorized(response);
+
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.message || "Failed to fetch prediction");
+    }
+
+    return data;
+}

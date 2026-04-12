@@ -2,7 +2,7 @@
  * Map manager module — Google Maps initialization, markers, and info windows.
  */
 import { fetchStations, fetchAvailability, fetchAllAvailability } from "./apiClient.js";
-import { showNearbyAlternatives } from "./ui.js";
+import { showNearbyAlternatives, setPredictionStation } from "./ui.js";
 import { drawAvailabilityChart } from "./chart.js";
 
 let map = null;
@@ -89,6 +89,7 @@ function addMarkers(stations) {
  * Handle marker click — show station info in the sidebar.
  */
 async function onMarkerClick(station) {
+    setPredictionStation(station.number, station.name);
     const panel = document.getElementById("station-info-panel");
     panel.style.display = "block";
 

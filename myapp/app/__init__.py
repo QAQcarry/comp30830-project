@@ -10,13 +10,13 @@ def create_app(config_class=Config):
 
     # Load configuration
     app.config.from_object(config_class)
-
+    
     # Init Flask-Login
     login_manager.login_view = "auth.login"
     login_manager.login_message = "Please log in to access this page."
     login_manager.login_message_category = "warning"
     login_manager.init_app(app)
-
+    
     # Register blueprints
     from .main.routes import main_bp
     from .auth.routes import auth_bp
