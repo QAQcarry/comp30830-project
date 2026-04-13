@@ -18,8 +18,13 @@ export async function loadWeather() {
         const w = weather[0];
         const iconUrl = `https://openweathermap.org/img/wn/${w.icon}@2x.png`;
 
+        const metaParts = [];
+        if (Number.isFinite(w.feels_like)) metaParts.push(`Feels like ${Math.round(w.feels_like)}°C`);
+        if (Number.isFinite(w.humidity))   metaParts.push(`Humidity ${w.humidity}%`);
+        if (Number.isFinite(w.wind_speed)) metaParts.push(`Wind ${w.wind_speed} m/s`);
+
         panel.innerHTML = `
-            <h2>Weather</h2>
+            <span class="section-label">Weather</span>
             <div class="weather-info">
                 <img src="${iconUrl}" alt="${w.description}" width="48" height="48"
                      onerror="this.style.display='none'">
@@ -28,12 +33,8 @@ export async function loadWeather() {
                     <div>${w.description}</div>
                 </div>
             </div>
-             <div style="margin-top:0.5rem; font-size:0.82rem; color:#555;">
-                Feels like ${Math.round(w.feels_like)}°C &nbsp;|&nbsp;
-                Humidity ${w.humidity}% &nbsp;|&nbsp;
-                Wind ${w.wind_speed} m/s
-            </div>
-             `;
+            ${metaParts.length ? `<div class="weather-meta">${metaParts.join(" &nbsp;|&nbsp; ")}</div>` : ""}
+        `;
     } catch (err) {
         console.error("Weather load error:", err);
         panel.querySelector("p").textContent = "Weather unavailable.";
@@ -55,13 +56,11 @@ export async function loadPrediction(stationId, date, time) {
     try {
         const data = await fetchPrediction(stationId, date, time);
 
-        const statusClass =
-            data.availability_status === "Likely available"
-                ? "status-good"
-                : "status-bad";
+        const isGood = data.availability_status === "Likely available";
+        const statusClass = isGood ? "status-good" : "status-bad";
 
+        resultBox.className = isGood ? "good" : "bad";
         resultBox.innerHTML = `
-            
             <p><strong>Predicted Bikes:</strong> ${data.predicted_bikes}</p>
             <p><strong>Status:</strong> <span class="${statusClass}">${data.availability_status}</span></p>
             <p>${data.message}</p>
@@ -123,11 +122,11 @@ export function showNearbyAlternatives(selectedStation, allStations, availabilit
     panel.style.display = "block";
     list.innerHTML = withDistance.slice(0, 5).map(s => `
         <li>
-            <strong>${s.name}</strong><br>
-            <span style="color:#666; font-size:0.8rem">
+            <strong>${s.name}</strong>
+            <span class="nearby-meta">
                 ${(s.distance * 1000).toFixed(0)} m away
+                <span class="nearby-availability"> — check for ${label}</span>
             </span>
-            <span class="nearby-availability"> — check for ${label}</span>
         </li>
     `).join("");
 }

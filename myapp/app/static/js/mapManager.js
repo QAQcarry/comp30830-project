@@ -92,6 +92,8 @@ async function onMarkerClick(station) {
     setPredictionStation(station.number, station.name);
     const panel = document.getElementById("station-info-panel");
     panel.style.display = "block";
+    const emptyState = document.getElementById("station-empty-state");
+    if (emptyState) emptyState.style.display = "none";
 
     document.getElementById("station-name").textContent = station.name;
     document.getElementById("station-address").textContent = station.address || "";
@@ -174,4 +176,17 @@ export function filterStations(query) {
  */
 export function getStations() {
     return allStations;
+}
+
+/**
+ * Select a station programmatically (e.g. from search dropdown).
+ */
+export function selectStationByNumber(number) {
+    const station = allStations.find(s => s.number === number);
+    if (!station) return;
+    if (map) {
+        map.panTo({ lat: station.latitude, lng: station.longitude });
+        map.setZoom(16);
+    }
+    onMarkerClick(station);
 }

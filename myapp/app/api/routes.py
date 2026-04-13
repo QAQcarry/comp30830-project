@@ -126,5 +126,12 @@ def get_weather():
     except Exception as e:
         print(f"Weather fetch failed: {e}")
         # Fallback data on error
-        fallback = [{"temp": 12.5, "description": "Error", "icon": "04d"}]
+        fallback = [{
+            "temp": 12.5,
+            "description": "Unavailable",
+            "icon": "04d",
+            "feels_like": None,
+            "humidity": None,
+            "wind_speed": None,
+        }]
         return jsonify(weather=fallback)
