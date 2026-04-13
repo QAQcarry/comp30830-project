@@ -28,7 +28,11 @@ export async function loadWeather() {
                     <div>${w.description}</div>
                 </div>
             </div>
-        `;
+             <div style="margin-top:0.5rem; font-size:0.82rem; color:#555;">
+                Feels like ${Math.round(w.feels_like)}°C &nbsp;|&nbsp;
+                Humidity ${w.humidity}% &nbsp;|&nbsp;
+                Wind ${w.wind_speed} m/s
+            </div>
     } catch (err) {
         console.error("Weather load error:", err);
         panel.querySelector("p").textContent = "Weather unavailable.";
