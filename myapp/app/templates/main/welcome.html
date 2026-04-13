@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Dublin Bikes - Welcome{% endblock %}
+
+{% block content %}
+  <div class="welcome-container">
+    <div class="welcome-card">
+      <span class="welcome-eyebrow">Dublin Bikes</span>
+      <h1 class="welcome-title">Real-time bike and dock availability across Dublin.</h1>
+      <p class="welcome-subtitle">
+        Find the nearest available bike or free dock, predict availability for later,
+        and plan trips with live weather — all on one map.
+      </p>
+
+      <div class="welcome-actions">
+        <a href="{{ url_for('auth.login') }}" class="btn-cta primary">Open Map</a>
+        <a href="{{ url_for('auth.register') }}" class="btn-cta secondary">Create Account</a>
+      </div>
+
+      <div class="welcome-features">
+        <div class="welcome-feature">
+          <p class="welcome-feature-title">Live station status</p>
+          <p class="welcome-feature-text">See bikes and free docks updating in real time across all Dublin stations.</p>
+        </div>
+        <div class="welcome-feature">
+          <p class="welcome-feature-title">Availability prediction</p>
+          <p class="welcome-feature-text">Check how likely a station will have bikes or docks at a future time.</p>
+        </div>
+        <div class="welcome-feature">
+          <p class="welcome-feature-title">Nearby alternatives</p>
+          <p class="welcome-feature-text">When a station is empty or full, see the closest stations worth checking.</p>
+        </div>
+        <div class="welcome-feature">
+          <p class="welcome-feature-title">Weather-aware planning</p>
+          <p class="welcome-feature-text">Current Dublin weather built into availability predictions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

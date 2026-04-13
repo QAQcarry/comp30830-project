@@ -4,46 +4,39 @@
 
 {% block content %}
   <div class="app-container">
-    <!-- Sidebar -->
+    <div id="map"></div>
+
     <aside class="sidebar">
-      <div class="sidebar-section">
-        <h2>Find a Station</h2>
-        <input type="text" id="station-search" placeholder="Search station name..." />
+      <div class="sidebar-header">
+        <h1>Dublin Bikes</h1>
+        <p>Find bikes and free docks across Dublin in real time.</p>
       </div>
 
-      <div class="sidebar-section" id="weather-panel">
-        <h2>Weather</h2>
-        <p class="placeholder-text">Loading weather...</p>
-      </div>
-
-      <div class="sidebar-section" id="prediction-panel">
-        <h2>Predict Availability</h2>
-
-        <label for="predict-station-name">Station</label>
-        <input type="text" id="predict-station-name" readonly />
-        <input type="hidden" id="predict-station-id" />
-        <input type="hidden" id="predict-station-id" />
-
-        <label for="predict-date">Date</label>
-        <input type="date" id="predict-date" />
-
-        <label for="predict-time">Time</label>
-        <input type="time" id="predict-time" />
-
-        <button id="predict-btn">Predict</button>
-
-        <div id="prediction-result">
-          <p class="placeholder-text">No prediction yet.</p>
+      <section class="panel-section">
+        <label class="section-label" for="station-search">Search</label>
+        <div class="search-wrapper">
+          <input type="text" id="station-search" placeholder="Search station name..." autocomplete="off" />
+          <ul id="search-results" class="search-results" hidden></ul>
         </div>
-      </div>
+      </section>
 
-      <div class="sidebar-section" id="station-info-panel" style="display: none;">
+      <section class="panel-section" id="station-empty-state">
+        <span class="section-label">Selected station</span>
+        <div class="empty-state">
+          <div class="empty-state-icon">📍</div>
+          <p class="empty-state-title">No station selected</p>
+          <p class="empty-state-text">Choose a marker on the map to view live bike and dock availability.</p>
+        </div>
+      </section>
+
+      <section class="panel-section" id="station-info-panel" style="display: none;">
+        <span class="section-label">Selected station</span>
         <h2 id="station-name"></h2>
-        <p id="station-address"></p>
+        <p id="station-address" class="muted-text"></p>
         <div class="availability-row">
           <div class="availability-card bikes">
             <span class="availability-number" id="available-bikes">-</span>
-            <span class="availability-label">Available Bikes</span>
+            <span class="availability-label">Bikes</span>
           </div>
           <div class="availability-card stands">
             <span class="availability-number" id="available-stands">-</span>
@@ -53,23 +46,50 @@
         <p id="station-capacity" class="capacity-text"></p>
         <div id="station-status"></div>
         <div id="chart-container"></div>
-      </div>
+      </section>
 
-      <div class="sidebar-section" id="nearby-panel" style="display: none;">
-        <h2>Nearby Alternatives</h2>
+      <section class="panel-section" id="prediction-panel">
+        <span class="section-label">Predict availability</span>
+
+        <label for="predict-station-name">Station</label>
+        <input type="text" id="predict-station-name" readonly placeholder="Select a station on the map" />
+        <input type="hidden" id="predict-station-id" />
+
+        <div class="field-row">
+          <div class="field">
+            <label for="predict-date">Date</label>
+            <input type="date" id="predict-date" />
+          </div>
+          <div class="field">
+            <label for="predict-time">Time</label>
+            <input type="time" id="predict-time" />
+          </div>
+        </div>
+
+        <button id="predict-btn">Predict</button>
+
+        <div id="prediction-result">
+          <p class="placeholder-text">No prediction yet.</p>
+        </div>
+      </section>
+
+      <section class="panel-section" id="nearby-panel" style="display: none;">
+        <span class="section-label">Nearby alternatives</span>
         <ul id="nearby-list"></ul>
-      </div>
-    </aside>
+      </section>
 
-    <!-- Map -->
-    <div id="map"></div>
+      <section class="panel-section" id="weather-panel">
+        <span class="section-label">Weather</span>
+        <p class="placeholder-text">Loading weather...</p>
+      </section>
+    </aside>
   </div>
 {% endblock %}
 
 {% block scripts %}
   <script type="module" src="{{ url_for('static', filename='js/app.js') }}"></script>
   <script
-    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&callback=initMap"
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_key }}&language=en&region=IE&callback=initMap"
     defer>
   </script>
 {% endblock %}

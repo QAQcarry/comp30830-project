@@ -1,7 +1,7 @@
 /**
  * App entry point — initializes map and sets up event listeners.
  */
-import { initMap, filterStations } from "./mapManager.js";
+import { initMap, filterStations, getStations, selectStationByNumber } from "./mapManager.js";
 import { loadWeather, loadPrediction } from "./ui.js";
 
 // Expose initMap to global scope for Google Maps callback
@@ -70,11 +70,62 @@ document.addEventListener("DOMContentLoaded", () => {
     loadWeather();
 
     const searchInput = document.getElementById("station-search");
+    const searchResults = document.getElementById("search-results");
+
+    function renderSearchResults(query) {
+        if (!searchResults) return;
+        const q = query.trim().toLowerCase();
+        if (!q) {
+            searchResults.hidden = true;
+            searchResults.innerHTML = "";
+            return;
+        }
+        const matches = getStations()
+            .filter(s => s.name.toLowerCase().includes(q))
+            .slice(0, 8);
+        if (matches.length === 0) {
+            searchResults.innerHTML = `<li class="search-empty">No stations match "${query}"</li>`;
+            searchResults.hidden = false;
+            return;
+        }
+        searchResults.innerHTML = matches.map(s => `
+            <li data-station-number="${s.number}">
+                <strong>${s.name}</strong>
+                ${s.address ? `<span class="search-meta">${s.address}</span>` : ""}
+            </li>
+        `).join("");
+        searchResults.hidden = false;
+    }
+
     if (searchInput) {
         searchInput.addEventListener("input", (e) => {
             filterStations(e.target.value);
+            renderSearchResults(e.target.value);
+        });
+        searchInput.addEventListener("focus", (e) => {
+            if (e.target.value.trim()) renderSearchResults(e.target.value);
         });
     }
+
+    if (searchResults) {
+        searchResults.addEventListener("mousedown", (e) => {
+            const li = e.target.closest("li[data-station-number]");
+            if (!li) return;
+            e.preventDefault();
+            const number = parseInt(li.dataset.stationNumber, 10);
+            selectStationByNumber(number);
+            searchInput.value = li.querySelector("strong").textContent;
+            filterStations("");
+            searchResults.hidden = true;
+        });
+    }
+
+    document.addEventListener("click", (e) => {
+        if (!searchResults) return;
+        if (!e.target.closest(".search-wrapper")) {
+            searchResults.hidden = true;
+        }
+    });
 
     const predictBtn = document.getElementById("predict-btn");
     if (predictBtn) {
