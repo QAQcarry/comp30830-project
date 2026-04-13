@@ -1,7 +1,7 @@
 /**
  * UI module — renders weather and nearby alternatives in the sidebar.
  */
-import { fetchWeather } from "./apiClient.js";
+import { fetchWeather, fetchPrediction } from "./apiClient.js";
 
 /**
  * Load and display weather in the sidebar (US4).
@@ -14,8 +14,10 @@ export async function loadWeather() {
             panel.querySelector("p").textContent = "No weather data available.";
             return;
         }
+
         const w = weather[0];
         const iconUrl = `https://openweathermap.org/img/wn/${w.icon}@2x.png`;
+
         panel.innerHTML = `
             <h2>Weather</h2>
             <div class="weather-info">
@@ -26,17 +28,62 @@ export async function loadWeather() {
                     <div>${w.description}</div>
                 </div>
             </div>
-            <div style="margin-top:0.5rem; font-size:0.82rem; color:#555;">
+             <div style="margin-top:0.5rem; font-size:0.82rem; color:#555;">
                 Feels like ${Math.round(w.feels_like)}°C &nbsp;|&nbsp;
                 Humidity ${w.humidity}% &nbsp;|&nbsp;
                 Wind ${w.wind_speed} m/s
             </div>
-        `;
+             `;
     } catch (err) {
         console.error("Weather load error:", err);
         panel.querySelector("p").textContent = "Weather unavailable.";
     }
 }
+
+export async function loadPrediction(stationId, date, time) {
+    const resultBox = document.getElementById("prediction-result");
+
+    if (!resultBox) return;
+
+    if (!stationId || !date || !time) {
+        resultBox.innerHTML = `<p class="placeholder-text">Please enter station ID, date, and time.</p>`;
+        return;
+    }
+
+    resultBox.innerHTML = `<p class="placeholder-text">Loading prediction...</p>`;
+
+    try {
+        const data = await fetchPrediction(stationId, date, time);
+
+        const statusClass =
+            data.availability_status === "Likely available"
+                ? "status-good"
+                : "status-bad";
+
+        resultBox.innerHTML = `
+            
+            <p><strong>Predicted Bikes:</strong> ${data.predicted_bikes}</p>
+            <p><strong>Status:</strong> <span class="${statusClass}">${data.availability_status}</span></p>
+            <p>${data.message}</p>
+        `;
+    } catch (err) {
+        console.error("Prediction load error:", err);
+        resultBox.innerHTML = `<p class="placeholder-text">Prediction unavailable.</p>`;
+    }
+}
+
+export function setPredictionStation(stationId, stationName) {
+    const stationIdInput = document.getElementById("predict-station-id");
+    const stationNameInput = document.getElementById("predict-station-name");
+
+    if (stationIdInput) {
+        stationIdInput.value = stationId;
+    }
+
+    if (stationNameInput) {
+        stationNameInput.value = stationName;
+    }
+} 
 
 /**
  * Show nearby stations with bikes/stands available (US5).

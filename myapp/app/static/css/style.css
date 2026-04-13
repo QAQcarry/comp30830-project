@@ -385,3 +385,49 @@ main {
   color: #055160;
   border: 1px solid #9eeaf9;
 }
+
+#prediction-result {
+  margin-top: 1rem;
+}
+
+.status-good {
+  color: green;
+  font-weight: bold;
+}
+
+.status-bad {
+  color: red;
+  font-weight: bold;
+}
+
+.status-good {
+    color: green;
+    font-weight: bold;
+}
+
+.status-bad {
+    color: red;
+    font-weight: bold;
+}
+
+#prediction-panel .form-group {
+    margin-bottom: 0.75rem;
+}
+
+#prediction-panel label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: 600;
+}
+
+#prediction-panel input,
+#prediction-panel button {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+#prediction-panel button {
+    margin-top: 0.5rem;
+}

@@ -16,6 +16,27 @@
         <p class="placeholder-text">Loading weather...</p>
       </div>
 
+      <div class="sidebar-section" id="prediction-panel">
+        <h2>Predict Availability</h2>
+
+        <label for="predict-station-name">Station</label>
+        <input type="text" id="predict-station-name" readonly />
+        <input type="hidden" id="predict-station-id" />
+        <input type="hidden" id="predict-station-id" />
+
+        <label for="predict-date">Date</label>
+        <input type="date" id="predict-date" />
+
+        <label for="predict-time">Time</label>
+        <input type="time" id="predict-time" />
+
+        <button id="predict-btn">Predict</button>
+
+        <div id="prediction-result">
+          <p class="placeholder-text">No prediction yet.</p>
+        </div>
+      </div>
+
       <div class="sidebar-section" id="station-info-panel" style="display: none;">
         <h2 id="station-name"></h2>
         <p id="station-address"></p>
