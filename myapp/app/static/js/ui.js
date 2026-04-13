@@ -33,6 +33,7 @@ export async function loadWeather() {
                 Humidity ${w.humidity}% &nbsp;|&nbsp;
                 Wind ${w.wind_speed} m/s
             </div>
+             `;
     } catch (err) {
         console.error("Weather load error:", err);
         panel.querySelector("p").textContent = "Weather unavailable.";
