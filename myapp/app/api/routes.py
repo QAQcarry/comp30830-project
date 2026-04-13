@@ -115,6 +115,9 @@ def get_weather():
                 "temp": data["main"]["temp"],
                 "description": data["weather"][0]["description"].title(),
                 "icon": data["weather"][0]["icon"],
+                "feels_like": data["main"]["feels_like"],
+                "humidity": data["main"]["humidity"],
+                "wind_speed": data["wind"]["speed"],
             }
         ]
 
