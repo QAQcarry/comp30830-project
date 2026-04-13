@@ -2,7 +2,6 @@
  * App entry point — initializes map and sets up event listeners.
  */
 import { initMap, filterStations } from "./mapManager.js";
-import { loadWeather } from "./ui.js";
 import { loadWeather, loadPrediction } from "./ui.js";
 
 // Expose initMap to global scope for Google Maps callback
