@@ -8,7 +8,7 @@ import requests
 
 
 @api_bp.route("/stations")
-@login_required
+
 def get_stations():
     """Return all stations as JSON."""
     engine = get_db()
@@ -21,7 +21,7 @@ def get_stations():
 
 
 @api_bp.route("/available/all")
-@login_required
+
 def get_all_availability():
     """Return the latest availability for every station (one row each)."""
     engine = get_db()
@@ -46,7 +46,7 @@ def get_all_availability():
 
 
 @api_bp.route("/available/<int:station_id>")
-@login_required
+
 def get_availability(station_id):
     """Return the latest availability for a given station."""
     engine = get_db()
@@ -71,7 +71,7 @@ def get_availability(station_id):
 
 
 @api_bp.route("/available/<int:station_id>/history")
-@login_required
+
 def get_availability_history(station_id):
     """Return availability history for a given station."""
     engine = get_db()
@@ -95,7 +95,7 @@ def get_availability_history(station_id):
 
 
 @api_bp.route("/weather")
-@login_required
+
 def get_weather():
     try:
         api_key = os.environ.get("OPENWEATHER_API_KEY")

@@ -20,8 +20,11 @@ except Exception as e:
 
 @main_bp.route("/")
 def index():
-    if not current_user.is_authenticated:
-        return render_template("main/welcome.html")
+    return render_template("main/welcome.html")
+
+
+@main_bp.route("/map")
+def map_view():
     google_maps_key = os.environ.get("GOOGLE_MAPS_KEY", "")
     return render_template("main/index.html", google_maps_key=google_maps_key)
 
