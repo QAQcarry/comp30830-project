@@ -24,7 +24,7 @@ def login():
             return render_template("auth/login.html")
 
         login_user(user)
-        return redirect(url_for("main.index"))
+        return redirect(url_for("main.map_view"))
 
     return render_template("auth/login.html")
 
@@ -67,4 +67,4 @@ def register():
 def logout():
     logout_user()
     flash("You have been logged out.", "info")
-    return redirect(url_for("auth.login"))
+    return redirect(url_for("main.index"))

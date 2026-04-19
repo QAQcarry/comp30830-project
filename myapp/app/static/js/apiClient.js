@@ -2,11 +2,8 @@
  * API client module — fetch wrappers for Flask backend endpoints.
  */
 
-function handleUnauthorized(response) {
-    if (response.status === 401 || response.redirected) {
-        window.location.href = "/auth/login";
-        throw new Error("Session expired. Redirecting to login.");
-    }
+function handleUnauthorized(_response) {
+    // No forced redirect — map is accessible to all users
 }
 
 export async function fetchStations() {
