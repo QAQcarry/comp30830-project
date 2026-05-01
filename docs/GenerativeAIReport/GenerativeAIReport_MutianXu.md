@@ -58,7 +58,7 @@ The teacher's example was a single-file Flask app, which started to feel cramped
 
 I asked AI for the standard way to organize a multi-route Flask project. It described the application factory pattern with Blueprints — `create_app()` in `__init__.py`, one module per resource under `routes/`, configuration in `config.py`, entrypoint in `run.py`.
 
-**Why this mattered for the project:** doing the restructure early — before the codebase grew — meant Sprint 3's API additions slotted in cleanly rather than requiring a painful refactor. **I applied this** as the actual structure under [myapp/app/](myapp/app/), and **the improvement** was that adding the `/predict` route in Sprint 4 took me about 15 minutes instead of an afternoon of untangling.
+**Why this mattered for the project:** doing the restructure early — before the codebase grew — meant Sprint 3's API additions slotted in cleanly rather than requiring a painful refactor. **I applied this** as the actual structure under myapp/app/, and **the improvement** was that adding the `/predict` route in Sprint 4 took me about 15 minutes instead of an afternoon of untangling.
 
 ---
 
