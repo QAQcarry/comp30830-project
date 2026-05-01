@@ -36,7 +36,7 @@ My first version of the page had ~200 lines of inline JavaScript inside `<script
 
 I asked AI how to organize the JavaScript. The answer was to split it by responsibility — `ui.js` for DOM updates and rendering, `app.js` for bootstrapping and API calls — and to load both with `defer`.
 
-**Why this was valuable for the project:** the split mirrored the actual mental model I was using when debugging (UI bugs vs. data-flow bugs), so navigating the code became much faster. **I applied this** with [ui.js](static/js/ui.js) and [app.js](static/js/app.js), and from that point on UI tweaks no longer touched the same file as the API logic — which removed an entire class of merge conflicts when working in parallel with my teammate on visual styling.
+**Why this was valuable for the project:** the split mirrored the actual mental model I was using when debugging (UI bugs vs. data-flow bugs), so navigating the code became much faster. **I applied this** with `ui.js` and `app.js`, and from that point on UI tweaks no longer touched the same file as the API logic — which removed an entire class of merge conflicts when working in parallel with my teammate on visual styling.
 
 ---
 
@@ -110,7 +110,7 @@ My first frontend version used `<form action="/api/stations">`, which forced a f
 
 I asked AI how to call the API from JavaScript without reloading. The answer was the standard `fetch()` + DOM update pattern, with a reminder to wrap the call in `try/catch` and disable the submit button while the request is pending.
 
-**Why this was valuable:** preserving map state between actions was critical for the user experience — losing your selected station every click felt broken. **I applied this** by replacing the form submission with `fetch()` calls in [app.js](static/js/app.js), and **the improvement** was a noticeably smoother experience: the map stayed put, the panel updated in place, and the disabled-while-loading state prevented double-submit bugs we had been seeing.
+**Why this was valuable:** preserving map state between actions was critical for the user experience — losing your selected station every click felt broken. **I applied this** by replacing the form submission with `fetch()` calls in `app.js`, and **the improvement** was a noticeably smoother experience: the map stayed put, the panel updated in place, and the disabled-while-loading state prevented double-submit bugs we had been seeing.
 
 ---
 
@@ -180,7 +180,7 @@ I asked AI what kind of user story makes sense specifically for an ML model. The
 
 I initially saved only the model with `pickle.dump(model, f)`. AI flagged that this was insufficient — without the feature list, Flask would have no reliable way to assemble inputs in the right column order.
 
-**Why this was valuable:** this is the kind of mistake that doesn't surface during local testing (where the order happens to match) but breaks immediately when the order shifts. **I applied this** by saving both `bike_availability_model.pkl` and `model_features.pkl` into [myapp/app/ml/](myapp/app/ml/), and the Flask `/predict` route now loads both at startup.
+**Why this was valuable:** this is the kind of mistake that doesn't surface during local testing (where the order happens to match) but breaks immediately when the order shifts. **I applied this** by saving both `bike_availability_model.pkl` and `model_features.pkl` into the `myapp/app/ml/` folder, and the Flask `/predict` route now loads both at startup.
 
 ---
 
